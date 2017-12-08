@@ -1,0 +1,29 @@
+{{!-- layouts/base.handlebars --}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {{#if title}} {{title}} {{else}} Test Before You Invest in Cryptocurrency - CryptoSim {{/if}}
+    </title>
+    {{>includes/css}}
+    </head>
+
+    <body>
+      <input type="hidden" id= "user" value={{user}}>
+
+      
+      {{> includes/nav }}
+      
+      {{{body}}}
+
+
+          {{> includes/footer }}
+ 
+
+      {{> includes/scripts }}
+
+    </body>
+
+</html>

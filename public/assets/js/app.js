@@ -11,7 +11,7 @@ $(document).ready(function() {
     //when a user clicks the 'Remove Saved Review'
     $(document).on("click", ".remove-review", function() { removeSavedReview($(this).attr("data-id")) });
     // when user clicks the "Scrape New Reviews" menu item
-    $(document).on("click", "#scrape-reviews", function() { scrapeNewReviews() });
+    $(document).on("click", "#scrape-reviews", function() { scrapeNewReviews($("#hotel-select").find(":selected").val()) });
     //when a user clicks the 'Save Draft Repsonse'
     $(document).on("click", "#save-response", function() { saveResponse($(this).attr("data-id")) });
 
@@ -165,9 +165,9 @@ $(document).ready(function() {
 
 
 
-    function scrapeNewReviews() {
-        console.log('scrapeNewReviews')
-        $.get("api/scrape").then(function(res) {
+    function scrapeNewReviews(hotelNumber) {
+        console.log('scrapeNewReviews for:', hotelNumber);
+        $.get("api/scrape?hotel="+hotelNumber).then(function(res) {
             initPage();
             $("#scrape-response").text(res)
             $('#modal-scrape-confirm').modal('show');

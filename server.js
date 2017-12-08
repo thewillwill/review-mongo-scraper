@@ -34,8 +34,11 @@ app.set("view engine", "handlebars");
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
+
+var mongoURL = process.env.MONGODB_URI;
+// var mongoURL = "mongodb://localhost/reviewScraper";
 mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(mongoURL, {
     useMongoClient: true
 });
 
@@ -48,7 +51,16 @@ app.get("/", function(req, res) {
 
 // A GET route for scraping the echojs website
 app.get("/api/scrape", function(req, res) {
-    const URL = "https://www.tripadvisor.com/Hotel_Review-g32066-d76013-Reviews-Hotel_Shattuck_Plaza-Berkeley_California.html"
+    const hotelNumber = req.query.hotel;
+    console.log('hotelNumber', hotelNumber)
+    
+    const hotels = ["https://www.tripadvisor.com/Hotel_Review-g32066-d76013-Reviews-Hotel_Shattuck_Plaza-Berkeley_California.html",
+    "https://www.tripadvisor.com/Hotel_Review-g32066-d80965-Reviews-Claremont_Club_Spa_A_Fairmont_Hotel-Berkeley_California.html",
+    "https://www.tripadvisor.com/Hotel_Review-g32066-d76008-Reviews-DoubleTree_by_Hilton_Berkeley_Marina-Berkeley_California.html",
+    "https://www.tripadvisor.com/Hotel_Review-g32066-d80959-Reviews-Graduate_Berkeley-Berkeley_California.html"]    
+    
+    var URL = hotels[hotelNumber]
+
     // First, we grab the body of the html with request
     axios.get(URL).then(function(response) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
